@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- PROMPT VERSION: 1.1 | TARGET: repair_manual -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Workbench - Subterranean Diagnostics</title>
+    <style>
+        :root {
+            --bg-paper: #f4f4f0;
+            --orange-alert: #ff5722;
+            --steel-grey: #607d8b;
+            --manila: #e6d598;
+            --font-mono: 'Courier New', Courier, 'Inconsolata', monospace;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-paper);
+            /* Advanced CSS Blueprint Grid */
+            background-image:
+                linear-gradient(rgba(96, 125, 139, 0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(96, 125, 139, 0.2) 1px, transparent 1px),
+                linear-gradient(rgba(96, 125, 139, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(96, 125, 139, 0.1) 1px, transparent 1px);
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+            color: #222;
+            font-family: var(--font-mono);
+            overflow-x: hidden;
+        }
+
+        /* Filing Cabinet Navigation */
+        header {
+            background: var(--steel-grey);
+            padding: 20px 20px 0 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #fff;
+            margin: 0 0 15px 0;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            border-bottom: 2px dashed #fff;
+            padding-bottom: 5px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 5px;
+            align-items: flex-end;
+        }
+
+        .filter-btn {
+            background: #b0a375;
+            border: 2px solid #333;
+            border-bottom: none;
+            padding: 8px 15px;
+            font-family: var(--font-mono);
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.1s;
+            box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--manila);
+            transform: translateY(2px);
+            padding-bottom: 10px;
+        }
+
+        /* The Gritty Grid */
+        main {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        /* Battered Index Card */
+        .card {
+            background: #fffdf7;
+            border: 2px solid #333;
+            padding: 15px;
+            box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.8);
+            cursor: pointer;
+            position: relative;
+            /* Clunky hover transition */
+            transition: transform 0.1s steps(3), box-shadow 0.1s steps(3);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px dashed #ccc;
+            pointer-events: none;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .card-desc {
+            font-size: 0.8rem;
+            color: #555;
+            line-height: 1.2;
+        }
+
+        .card:hover {
+            transform: translateY(-6px) translateX(-2px);
+            box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.9);
+            border-color: var(--orange-alert);
+        }
+
+        /* Clipboard Modal */
+        dialog {
+            background: var(--manila);
+            border: 3px solid #222;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            box-shadow: 15px 15px 0 rgba(0, 0, 0, 0.8);
+            overflow-y: auto;
+        }
+
+        dialog::backdrop {
+            background: rgba(96, 125, 139, 0.7);
+        }
+
+        /* Clipboard Clip Graphic */
+        .clipboard-clip {
+            width: 100px;
+            height: 20px;
+            background: silver;
+            border: 2px solid #333;
+            margin: -40px auto 20px auto;
+            border-radius: 5px;
+            box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .dossier-entry {
+            border-bottom: 1px solid #999;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .dossier-entry::before {
+            content: attr(data-stamp);
+            position: absolute;
+            top: 20px;
+            right: 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: rgba(255, 0, 0, 0.2);
+            transform: rotate(-15deg);
+            border: 3px solid rgba(255, 0, 0, 0.2);
+            padding: 2px 10px;
+            pointer-events: none;
+        }
+
+        .entry-title {
+            background: #222;
+            color: #fff;
+            display: inline-block;
+            padding: 2px 8px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .entry-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .close-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--orange-alert);
+            border: 2px solid #000;
+            color: #000;
+            font-family: var(--font-mono);
+            font-weight: bold;
+            padding: 10px 15px;
+            cursor: pointer;
+            box-shadow: 2px 2px 0 #000;
+        }
+
+        .close-btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>MAINTENANCE ARCHIVE // LEVEL 4</h1>
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">Master Log</button>
+            <button class="filter-btn" data-filter="OEM Specs">OEM Specs</button>
+            <button class="filter-btn" data-filter="Rogue Hacks">Rogue Hacks</button>
+            <button class="filter-btn" data-filter="Diagnostic Logs">Diagnostic Logs</button>
+            <button class="filter-btn" data-filter="Supply Chain">Supply Chain</button>
+        </div>
+    </header>
+
+    <main id="grid"></main>
+
+    <dialog id="dossier-modal">
+        <button class="close-btn" onclick="document.getElementById('dossier-modal').close()">[X] CLOSE</button>
+        <div class="clipboard-clip"></div>
+        <div id="dossier-body">
+            <!-- Populated via JS -->
+        </div>
+    </dialog>
+
+    <script>
+        // --- PASTE SITES HERE ---
+        const sites = [
+            {
+                id: "AX-774",
+                title: "Hydraulic Bypass Sequence",
+                category: "Rogue Hacks",
+                desc: "Overriding governor limits on MkII Loader.",
+                oem: "Max load limit 2000kg. Do not override safety pin.",
+                hacks: "Jam a 14mm socket wrench into the safety interlock. Boosts capacity to 3500kg.",
+                diag: "Logs show extreme stress on joint C. Fluid leakage detected.",
+                supply: "OEM seals backordered 6 months. Using vulcanized rubber strips instead."
+            },
+            {
+                id: "SR-009",
+                title: "Sensor Array Calibration",
+                category: "OEM Specs",
+                desc: "Standard factory reset procedure.",
+                oem: "Requires proprietary calibration tool ($4,000).",
+                hacks: "N/A - Hardcoded firmware prevents bypass.",
+                diag: "Error code 404-B: 'Unauthorized manipulation detected'.",
+                supply: "Tool only available from licensed distributors."
+            },
+            {
+                id: "PWR-X2",
+                title: "Battery Cell Degradation",
+                category: "Diagnostic Logs",
+                desc: "Rapid venting issue in off-brand cells.",
+                oem: "Replace battery pack every 500 cycles.",
+                hacks: "Drill small exhaust holes in casing. Voids warranty. Saves lives.",
+                diag: "Thermal runaway event recorded at cycle 312.",
+                supply: "Grey market cells flooding the sector. Verify serial numbers."
+            },
+            {
+                id: "CON-Belt",
+                title: "Conveyor Belt Micro-Tears",
+                category: "Supply Chain",
+                desc: "Material weakness in recent shipments.",
+                oem: "Tensile strength rated at 50MPa.",
+                hacks: "Stitch tearing with high-test fishing line. Holds for about a week.",
+                diag: "Micro-tears accumulating after only 50 hours of operation.",
+                supply: "Manufacturer quietly switched suppliers. Documentation falsified."
+            }
+        ];
+        // ------------------------
+
+        const grid = document.getElementById('grid');
+        const modal = document.getElementById('dossier-modal');
+        const dossierBody = document.getElementById('dossier-body');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        function renderCards() {
+            grid.innerHTML = '';
+            sites.forEach((site, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.category = site.category;
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <span>REF: ${site.id}</span>
+                        <span style="color: var(--orange-alert)">[ ${site.category} ]</span>
+                    </div>
+                    <div class="card-title">${site.title}</div>
+                    <div class="card-desc">${site.desc}</div>
+                `;
+
+                card.addEventListener('click', () => openModal(site));
+                grid.appendChild(card);
+            });
+        }
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+
+                const filter = e.target.dataset.filter;
+                const cards = document.querySelectorAll('.card');
+
+                cards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        function openModal(site) {
+            dossierBody.innerHTML = `
+                <h2 style="text-transform:uppercase; border-bottom: 2px solid #000;">WORK ORDER: ${site.id}</h2>
+                <div class="dossier-entry" data-stamp="APPROVED">
+                    <div class="entry-title">01. OEM SPECIFICATIONS</div>
+                    <div class="entry-text">${site.oem}</div>
+                </div>
+                <div class="dossier-entry" data-stamp="VOID WARRANTY">
+                    <div class="entry-title">02. FIELD HACKS</div>
+                    <div class="entry-text">${site.hacks}</div>
+                </div>
+                <div class="dossier-entry" data-stamp="ERROR">
+                    <div class="entry-title">03. DIAGNOSTIC LOGS</div>
+                    <div class="entry-text">${site.diag}</div>
+                </div>
+                <div class="dossier-entry" data-stamp="PENDING">
+                    <div class="entry-title">04. SUPPLY CHAIN STATUS</div>
+                    <div class="entry-text">${site.supply}</div>
+                </div>
+            `;
+            modal.showModal();
+        }
+
+        modal.addEventListener('click', (e) => {
+            const dialogDimensions = modal.getBoundingClientRect()
+            if (
+                e.clientX < dialogDimensions.left || e.clientX > dialogDimensions.right ||
+                e.clientY < dialogDimensions.top || e.clientY > dialogDimensions.bottom
+            ) { modal.close(); }
+        });
+
+        renderCards();
+    </script>
+</body>
+
+</html>

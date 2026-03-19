@@ -1,0 +1,27 @@
+# Film (Diegetic Prototypes)  
+1. **Star Trek (TOS) – Communicator device** (Culver City, CA; 34.02N, -118.39W) – Flip-phone–style mobile communicator depicted on 1960s TV prefigures modern cell phones【18†L272-L280】.  
+2. **Star Trek: The Next Generation – Bridge touchscreens** (Los Angeles, CA; 34.00N, -118.30W) – The USS Enterprise-D’s LCARS console (1987) used touch and gesture UIs, anticipating today’s tablets and touch interfaces【20†L123-L131】.  
+3. **2001: A Space Odyssey – Newspad tablets** (Borehamwood, UK; 51.68N, -0.28W) – Astronauts use hand-held “Newspads” as digital newspapers (1968) – an early vision of tablet computers【20†L163-L170】.  
+4. **Blade Runner – Video phone (Vid-Phon)** (Los Angeles, CA; 34.05N, -118.25W) – Rick Deckard uses a public videophone to call Rachel (1982), foreshadowing ubiquitous video calls【20†L199-L207】.  
+5. **Minority Report – PreCrime gesture UI** (MIT Media Lab, Cambridge, MA; 42.36N, -71.09W) – John Anderton’s gesture-based crime prevention interface (2002 film) was created by John Underkoffler (MIT) and is cited as a “diegetic prototype” for spatial computing【12†L30-L39】.  
+6. **Minority Report – Targeted mall ads** (Los Angeles, CA; 34.10N, -118.34W) – Personalized holographic advertisements address Anderton by name (2002 film), an early pop-culture example of data-driven targeted ads【20†L139-L146】.  
+7. **Terminator – Military drones** (Los Angeles, CA; 34.05N, -118.25W) – In the 1984 film, autonomous combat helicopters and skyscraper cameras patrol the future war zone – one of the first on-screen depictions of drone warfare【20†L229-L237】.  
+8. **Total Recall – Self-driving taxi** (Los Angeles, CA; 34.05N, -118.25W) – The 1990 film shows a pilotless flying taxi (“Johnny Cab”) navigating the city, predicting autonomous ride services【20†L180-L189】.  
+9. **Iron Man 2 – Holographic AR interface** (Malibu, CA; 34.03N, -118.52W) – Tony Stark’s lab features full-surround holographic displays with gesture control (2010 film), celebrated as a thrilling future-computing UI【22†L43-L47】.  
+
+## Fictional Repair Manuals & Technical Schematics  
+1. **Star Trek: Starfleet Technical Manual (1975)** – Franz Joseph Schnaubelt’s book (Washington, DC; 38.91N, -77.04W) containing blueprints and specs for USS Enterprise (NCC-1701) – the first official Star Trek tech manual【35†L148-L156】.  
+2. **Star Trek: The Next Generation Technical Manual (1991)** – Rick Sternbach & Michael Okuda’s paperback (New York, NY; 40.71N, -74.01W) detailing the inner workings of the Enterprise NCC-1701‑D. It’s an in-universe starship guide cited for its detailed schematics【39†L130-L139】.  
+3. **Aliens: Colonial Marines Technical Manual (1995)** – Lee Brimmicombe-Wood’s in-universe guide (London, UK; 51.51N, -0.13W) to the US Colonial Marines’ gear, weapons and vehicles. It includes detailed breakdowns and diagrams of movie tech (pulse rifles, dropships, etc.)【50†L645-L654】.  
+
+## Speculative Quick Start Guides & Instruction Leaflets  
+1. **Self-Driving Car Quick-Start Guide** (IxDA workshop 2015, San Francisco, CA; 37.77N, -122.42W) – Design Fiction artifact (Bleecker 2015) presented as the owner’s manual for a future autonomous car, used to expose questions (e.g. Uber mode, geofencing) about everyday AV use【64†L21-L24】.  
+2. **Amazon Helios Pilot Quick-Start Guide** (Concept design, Seattle, WA; 47.61N, -122.33W) – Fictional guide for a notional Amazon robot-taxi (driverless car). It includes humorous warnings and FAQs (e.g. liability, misuse penalties) to explore implications of autonomous fleets【66†L108-L116】.  
+3. **Phygital Collaboration Quick-Start Guide** (UbiComp/ISWC workshop, Espoo, Finland; 60.21N, 24.66E) – A diegetic prototype created in a 2025 workshop. This speculative user guide for future collaborative fabrication environments (wearable devices + remote factories) was designed as a “quick-start” manual to materialize hybrid workspaces【70†L126-L134】.  
+
+## Future Product Catalogs & Fictional Retail Experiences  
+1. **TBD Catalog** (Near Future Lab 2012, Redwood City, CA; 37.48N, -122.23W) – A mail-order catalog (10th Anniv. ed.) listing outlandish near-future products (e.g. “AI-by-the-hour lawyers,” “ear freshener” devices, smart toilets, crypto-mining home goods). It treats future tech as cheap commodity items to provoke thought on the “mundane” future【73†L93-L101】.  
+2. **IKEA Catalog from the Future** (Workshop 2015, Stockholm, Sweden; 59.33N, 18.07E) – A design-fiction IKEA brochure showing Internet-of-Things–enabled home goods. For example, counters with embedded cooking instructions and smart appliances with odd subscription models. This playful catalog invites discussion of smart-home futures in a familiar retail format【74†L75-L84】.  
+3. **“99¢ Futures” Pop-up Store** (Brooklyn, NY; 40.65N, -73.95W) – An art/retail event (2013) held in a real discount store on Flatbush Avenue. Curators stocked the shelves with 100+ speculative products (DIY organ kits, Mars survival kits, etc.) priced like dollar-store items. Shoppers bought these future-goods alongside regular merchandise, blending art and commerce【76†L14-L22】.  
+
+**Sources:** Citations from film analyses and design-fiction projects【12†L30-L39】【20†L123-L131】【20†L137-L146】【20†L163-L170】【20†L180-L189】【20†L199-L207】【22†L43-L47】【35†L148-L156】【39†L130-L139】【50†L645-L654】【64†L21-L24】【66†L108-L116】【70†L126-L134】【73†L93-L101】【74†L75-L84】【76†L14-L22】. Each listed item gives a real example’s location (coordinates) and why it’s significant.

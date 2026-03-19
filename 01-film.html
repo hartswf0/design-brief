@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- PROMPT VERSION: 1.1 | TARGET: film_prototype -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Editor's Bay - Production Archival</title>
+    <style>
+        :root {
+            --bg-deep: #0a0a0c;
+            --bg-table: #141417;
+            --amber-glow: rgba(255, 191, 0, 0.8);
+            --cyan-glow: rgba(0, 243, 255, 0.8);
+            --slide-mount: #e8e8e8;
+            --text-ui: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --text-doc: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-deep);
+            color: #fff;
+            font-family: var(--text-ui);
+            overflow-x: hidden;
+        }
+
+        /* The Timeline / Navigation Bar */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #000;
+            border-bottom: 2px solid #333;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-image:
+                repeating-linear-gradient(90deg,
+                    transparent,
+                    transparent 10px,
+                    #333 10px,
+                    #333 14px);
+            background-position: bottom;
+            background-size: 100% 8px;
+            background-repeat: no-repeat;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+            color: #888;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            background: #222;
+            border: 1px solid #444;
+            color: #aaa;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            color: #000;
+            background: #ffbf00;
+            border-color: #ffbf00;
+            box-shadow: 0 0 10px var(--amber-glow);
+        }
+
+        /* The Light Table Grid */
+        main {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            background: radial-gradient(circle at center, var(--bg-table) 0%, var(--bg-deep) 100%);
+            min-height: 100vh;
+        }
+
+        /* Mounted 35mm Slide Card */
+        .card {
+            background: var(--slide-mount);
+            padding: 10px 10px 25px 10px;
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            aspect-ratio: 1 / 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-image {
+            background: #111;
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #000;
+            filter: brightness(0.8) contrast(1.2);
+            transition: filter 0.3s ease;
+        }
+
+        .card-image::after {
+            content: attr(data-frame);
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            color: #ffbf00;
+            font-family: var(--text-doc);
+            font-size: 0.7rem;
+            opacity: 0.6;
+        }
+
+        .card-title {
+            color: #000;
+            font-family: var(--text-ui);
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-top: 8px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 0 20px var(--cyan-glow);
+        }
+
+        .card:hover .card-image {
+            filter: brightness(1.2) contrast(1.1);
+        }
+
+        /* Modal / Script Breakdown Sheet */
+        dialog {
+            background: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 0;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            box-shadow: 0 0 50px var(--amber-glow);
+        }
+
+        dialog::backdrop {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(4px);
+        }
+
+        .dossier-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas:
+                "header header"
+                "pre execution"
+                "tech tech"
+                "post reception";
+            gap: 1px;
+            background: #000;
+            /* Forms the rigid thin borders */
+            color: #000;
+            font-family: var(--text-doc);
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        .dossier-section {
+            background: #fff;
+            padding: 20px;
+        }
+
+        .dossier-header {
+            grid-area: header;
+            position: relative;
+        }
+
+        .sect-pre {
+            grid-area: pre;
+        }
+
+        .sect-exec {
+            grid-area: execution;
+        }
+
+        .sect-tech {
+            grid-area: tech;
+            background: #fdfae3;
+        }
+
+        /* Slightly aged paper */
+        .sect-post {
+            grid-area: post;
+        }
+
+        .sect-reception {
+            grid-area: reception;
+        }
+
+        h2,
+        h3 {
+            font-family: var(--text-ui);
+            text-transform: uppercase;
+            margin-top: 0;
+            font-size: 0.85rem;
+            color: #555;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+
+        p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: var(--text-ui);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Archive // 35MM</h1>
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="Pre-Production">Pre-Production</button>
+            <button class="filter-btn" data-filter="VFX Friction">VFX Friction</button>
+            <button class="filter-btn" data-filter="On-Set Notes">On-Set Notes</button>
+            <button class="filter-btn" data-filter="Technical Advising">Technical Advising</button>
+        </div>
+    </header>
+
+    <main id="grid"></main>
+
+    <dialog id="dossier-modal">
+        <div class="dossier-content" id="dossier-body">
+            <!-- Populated via JS -->
+        </div>
+    </dialog>
+
+    <script>
+        // --- PASTE SITES HERE ---
+        const sites = [
+            {
+                title: "Scene 42: Gravity Loss",
+                category: "VFX Friction",
+                frame: "FRM-001A",
+                pre: "Director insists on practical wirework for initial setup.",
+                execution: "Wires snapped during take 4. Actor safety compromised. Pivot to digital replacement.",
+                tech: "RENDER LOG 402: Raytracing failed on metallic suit reflections. 45 hour delay.",
+                post: "Heavy grain added to hide wire removal artifacts.",
+                reception: "Reviewers praised 'visceral realism'."
+            },
+            {
+                title: "Location Scout: The Wastes",
+                category: "Pre-Production",
+                frame: "FRM-092B",
+                pre: "Scouted salt flats. Beautiful desolation.",
+                execution: "Unforeseen weather patterns turned flats to mud.",
+                tech: "Equipment sunk 4 inches into alkaline mud. 2 cameras destroyed.",
+                post: "Color grade shifted to sepia to mask mud.",
+                reception: "N/A"
+            },
+            {
+                title: "Dialogue Revise: Act 3",
+                category: "On-Set Notes",
+                frame: "FRM-214C",
+                pre: "Script locked.",
+                execution: "Lead actor refused to say the word 'Quantum'. Rewrote on napkin.",
+                tech: "Audio sync drift. ADR required for entire scene.",
+                post: "ADR doesn't match emotional intensity of visual performance.",
+                reception: "Audience noted bizarre lip movement."
+            },
+            {
+                title: "Consultant Brief: Hackers",
+                category: "Technical Advising",
+                frame: "FRM-405X",
+                pre: "Hired ex-NSA to verify screen graphics.",
+                execution: "Consultant laughed at UI mockups. Redesigned to pure terminal.",
+                tech: "Terminal text scrolling too fast for 24fps shutter speed. Added motion blur.",
+                post: "Studio pushed back, requested more 'green glow'.",
+                reception: "Cult hit among cybersecurity professionals."
+            }
+        ];
+        // ------------------------
+
+        const grid = document.getElementById('grid');
+        const modal = document.getElementById('dossier-modal');
+        const dossierBody = document.getElementById('dossier-body');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        // Render Cards
+        function renderCards() {
+            grid.innerHTML = '';
+            sites.forEach((site, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.category = site.category;
+                card.dataset.index = index;
+
+                card.innerHTML = `
+                    <div class="card-image" data-frame="${site.frame}">
+                        <span style="color:#333; font-family:var(--text-ui); font-size:2rem;">⊗</span>
+                    </div>
+                    <div class="card-title">${site.title}</div>
+                `;
+
+                card.addEventListener('click', () => openModal(site));
+                grid.appendChild(card);
+            });
+        }
+
+        // Filtering Logic
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+
+                const filter = e.target.dataset.filter;
+                const cards = document.querySelectorAll('.card');
+
+                cards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Modal Logic
+        function openModal(site) {
+            dossierBody.innerHTML = `
+                <div class="dossier-section dossier-header">
+                    <button class="close-btn" onclick="document.getElementById('dossier-modal').close()">Close</button>
+                    <h2>${site.title}</h2>
+                    <p><strong>FRAME REF:</strong> ${site.frame} | <strong>DEPT:</strong> ${site.category}</p>
+                </div>
+                <div class="dossier-section sect-pre">
+                    <h3>I. Pre-Production</h3>
+                    <p>${site.pre}</p>
+                </div>
+                <div class="dossier-section sect-exec">
+                    <h3>II. Execution</h3>
+                    <p>${site.execution}</p>
+                </div>
+                <div class="dossier-section sect-tech">
+                    <h3>III. Tech Logs</h3>
+                    <p>${site.tech}</p>
+                </div>
+                <div class="dossier-section sect-post">
+                    <h3>IV. Post-Production</h3>
+                    <p>${site.post}</p>
+                </div>
+                <div class="dossier-section sect-reception">
+                    <h3>V. Reception</h3>
+                    <p>${site.reception}</p>
+                </div>
+            `;
+            modal.showModal();
+        }
+
+        // Close modal on backdrop click
+        modal.addEventListener('click', (e) => {
+            const dialogDimensions = modal.getBoundingClientRect()
+            if (
+                e.clientX < dialogDimensions.left ||
+                e.clientX > dialogDimensions.right ||
+                e.clientY < dialogDimensions.top ||
+                e.clientY > dialogDimensions.bottom
+            ) {
+                modal.close();
+            }
+        });
+
+        // Initialize
+        renderCards();
+    </script>
+</body>
+
+</html>

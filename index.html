@@ -1,0 +1,1371 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Design Fiction Idioms — Field Manual</title>
+    <style>
+        :root {
+            --bg: #fafaf8;
+            --ink: #0b0c0d;
+            --ink-soft: #4a4e54;
+            --line: #0b0c0d;
+            --accent: #0b0c0d;
+            --card: #ffffff;
+            --radius: 12px;
+            --film: #1a1a2e;
+            --repair: #2d2418;
+            --quick: #f0f4f8;
+            --catalog: #f5f0d8
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+            color: var(--ink);
+            background: var(--bg);
+            line-height: 1.5
+        }
+
+        /* SHELL */
+        .shell {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 12px 14px 120px
+        }
+
+        /* HERO */
+        .hero {
+            border: 2px solid var(--line);
+            border-radius: var(--radius);
+            padding: 20px 16px;
+            margin-bottom: 10px;
+            background: #fff;
+            position: relative;
+            overflow: hidden
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(0, 0, 0, .03) 4px, rgba(0, 0, 0, .03) 5px);
+            pointer-events: none
+        }
+
+        h1 {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            font-weight: 900;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            line-height: 1.15
+        }
+
+        .hero .subtitle {
+            font-size: .82rem;
+            color: var(--ink-soft);
+            max-width: 62ch;
+            margin-bottom: 10px
+        }
+
+        .hero .source {
+            font-size: .72rem;
+            font-weight: 800;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            color: var(--ink-soft)
+        }
+
+        .hero .source a {
+            color: var(--ink);
+            text-decoration: underline
+        }
+
+        /* NAV STRIP */
+        .nav-strip {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 6px;
+            margin-bottom: 10px
+        }
+
+        .nav-link {
+            display: block;
+            border: 2px solid var(--line);
+            border-radius: 10px;
+            padding: 10px 10px;
+            text-decoration: none;
+            color: var(--ink);
+            background: #fff;
+            transition: transform .12s ease, box-shadow .12s ease
+        }
+
+        .nav-link:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .08)
+        }
+
+        .nav-icon {
+            font-size: 1.1rem;
+            margin-bottom: 2px
+        }
+
+        .nav-label {
+            font-size: .64rem;
+            font-weight: 900;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            line-height: 1.2
+        }
+
+        .nav-desc {
+            font-size: .58rem;
+            color: var(--ink-soft);
+            line-height: 1.3;
+            margin-top: 2px
+        }
+
+        /* IDIOM CARDS */
+        .idiom {
+            border: 2px solid var(--line);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            overflow: hidden;
+            background: #fff
+        }
+
+        .idiom-head {
+            padding: 14px 14px 10px;
+            border-bottom: 2px solid var(--line);
+            position: relative
+        }
+
+        .idiom-head .num {
+            font-size: .62rem;
+            font-weight: 900;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 2px
+        }
+
+        .idiom-head h2 {
+            font-size: clamp(.92rem, 2.4vw, 1.15rem);
+            font-weight: 900;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            line-height: 1.2
+        }
+
+        .idiom-head .ts {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            font-size: .6rem;
+            font-weight: 800;
+            color: var(--ink-soft);
+            letter-spacing: .04em;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 2px 7px
+        }
+
+        /* SIGNALS */
+        .signals {
+            padding: 10px 14px;
+            border-bottom: 2px solid var(--line);
+            background: #fafaf8
+        }
+
+        .signals .label {
+            font-size: .58rem;
+            font-weight: 900;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 4px
+        }
+
+        .signals ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px
+        }
+
+        .signals li {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 3px 8px;
+            font-size: .64rem;
+            font-weight: 700;
+            line-height: 1.2
+        }
+
+        /* REMARKS */
+        .remarks {
+            padding: 12px 14px;
+            border-bottom: 2px solid var(--line)
+        }
+
+        .remark {
+            margin-bottom: 8px
+        }
+
+        .remark:last-child {
+            margin-bottom: 0
+        }
+
+        .remark-num {
+            font-size: .68rem;
+            font-weight: 900;
+            color: var(--ink-soft);
+            letter-spacing: .02em;
+            margin-right: 4px;
+            font-family: "Menlo", "Consolas", monospace
+        }
+
+        .remark-text {
+            font-size: .84rem;
+            font-weight: 700;
+            line-height: 1.45
+        }
+
+        /* DIVERGENT */
+        details.divergent {
+            border-bottom: 2px solid var(--line);
+            padding: 0
+        }
+
+        details.divergent summary {
+            cursor: pointer;
+            list-style: none;
+            padding: 10px 14px;
+            font-size: .68rem;
+            font-weight: 900;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            transition: color .15s
+        }
+
+        details.divergent summary::-webkit-details-marker {
+            display: none
+        }
+
+        details.divergent summary:hover {
+            color: var(--ink)
+        }
+
+        details.divergent[open] summary {
+            border-bottom: 1px solid rgba(0, 0, 0, .08)
+        }
+
+        .divergent-body {
+            padding: 10px 14px 14px
+        }
+
+        .divergent-intro {
+            font-size: .78rem;
+            color: var(--ink);
+            line-height: 1.55;
+            margin-bottom: 10px;
+            font-style: italic
+        }
+
+        .branch {
+            margin-bottom: 8px;
+            padding-left: 10px;
+            border-left: 3px solid var(--line)
+        }
+
+        .branch:last-child {
+            margin-bottom: 0
+        }
+
+        .branch-label {
+            font-size: .64rem;
+            font-weight: 900;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 2px
+        }
+
+        .branch-text {
+            font-size: .76rem;
+            color: var(--ink);
+            line-height: 1.5
+        }
+
+        /* CONTROL SURFACE */
+        details.control {
+            padding: 0
+        }
+
+        details.control summary {
+            cursor: pointer;
+            list-style: none;
+            padding: 10px 14px;
+            font-size: .68rem;
+            font-weight: 900;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            transition: color .15s
+        }
+
+        details.control summary::-webkit-details-marker {
+            display: none
+        }
+
+        details.control summary:hover {
+            color: var(--ink)
+        }
+
+        details.control[open] summary {
+            border-bottom: 1px solid rgba(0, 0, 0, .08)
+        }
+
+        .control-body {
+            padding: 10px 14px 14px;
+            font-family: "Menlo", "Consolas", "SFMono-Regular", monospace;
+            font-size: .72rem;
+            line-height: 1.6;
+            color: var(--ink);
+            white-space: pre-wrap
+        }
+
+        .control-body .op {
+            display: block;
+            margin-bottom: 6px;
+            padding-left: 0
+        }
+
+        .lang-game {
+            font-size: .6rem;
+            font-weight: 800;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            padding: 6px 14px;
+            border-top: 1px solid rgba(0, 0, 0, .06);
+            background: #fafaf8
+        }
+
+        /* FILM SPECIAL */
+        .idiom--film .idiom-head {
+            background: var(--film);
+            color: #fff
+        }
+
+        .idiom--film .idiom-head .num,
+        .idiom--film .idiom-head .ts {
+            color: rgba(255, 255, 255, .5)
+        }
+
+        .idiom--film .idiom-head .ts {
+            border-color: rgba(255, 255, 255, .25)
+        }
+
+        /* REPAIR SPECIAL */
+        .idiom--repair .idiom-head {
+            background: var(--repair);
+            color: #fff
+        }
+
+        .idiom--repair .idiom-head .num,
+        .idiom--repair .idiom-head .ts {
+            color: rgba(255, 255, 255, .5)
+        }
+
+        .idiom--repair .idiom-head .ts {
+            border-color: rgba(255, 255, 255, .25)
+        }
+
+        .idiom--repair .branch {
+            border-left-color: #e67e22
+        }
+
+        /* QUICK START SPECIAL */
+        .idiom--quick .idiom-head {
+            background: var(--quick);
+            color: var(--ink)
+        }
+
+        .idiom--quick .branch {
+            border-left-color: #2980b9
+        }
+
+        /* CATALOG SPECIAL */
+        .idiom--catalog .idiom-head {
+            background: var(--catalog);
+            color: var(--ink)
+        }
+
+        .idiom--catalog .branch {
+            border-left-color: #c0392b
+        }
+
+        /* CRATE LINK */
+        .crate-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-bottom: 2px solid var(--line);
+            text-decoration: none;
+            color: var(--ink);
+            background: #fafaf8;
+            transition: background .12s ease
+        }
+
+        .crate-link:hover {
+            background: #f0f0ec
+        }
+
+        .crate-link .cl-icon {
+            font-size: 1rem;
+            flex-shrink: 0
+        }
+
+        .crate-link .cl-body {
+            flex: 1
+        }
+
+        .crate-link .cl-title {
+            font-size: .7rem;
+            font-weight: 900;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            line-height: 1.2
+        }
+
+        .crate-link .cl-desc {
+            font-size: .6rem;
+            color: var(--ink-soft);
+            line-height: 1.3;
+            margin-top: 1px
+        }
+
+        .crate-link .cl-arrow {
+            font-size: .7rem;
+            color: var(--ink-soft);
+            flex-shrink: 0
+        }
+
+        /* EXAMPLES */
+        details.examples {
+            border-bottom: 2px solid var(--line);
+            padding: 0
+        }
+
+        details.examples summary {
+            cursor: pointer;
+            list-style: none;
+            padding: 10px 14px;
+            font-size: .68rem;
+            font-weight: 900;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            transition: color .15s
+        }
+
+        details.examples summary::-webkit-details-marker {
+            display: none
+        }
+
+        details.examples summary:hover {
+            color: var(--ink)
+        }
+
+        details.examples[open] summary {
+            border-bottom: 1px solid rgba(0, 0, 0, .08)
+        }
+
+        .examples-body {
+            padding: 10px 14px 14px
+        }
+
+        .example-item {
+            margin-bottom: 8px;
+            padding-left: 10px;
+            border-left: 2px solid rgba(0, 0, 0, .12)
+        }
+
+        .example-item:last-child {
+            margin-bottom: 0
+        }
+
+        .example-tag {
+            font-size: .56rem;
+            font-weight: 900;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 1px
+        }
+
+        .example-title {
+            font-size: .74rem;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 1px
+        }
+
+        .example-desc {
+            font-size: .68rem;
+            color: var(--ink-soft);
+            line-height: 1.45
+        }
+
+        .example-source {
+            font-size: .56rem;
+            font-weight: 700;
+            color: var(--ink-soft);
+            letter-spacing: .02em;
+            margin-top: 2px
+        }
+
+        .idiom--film .example-item {
+            border-left-color: rgba(255, 191, 0, .5)
+        }
+
+        .idiom--repair .example-item {
+            border-left-color: #e67e22
+        }
+
+        .idiom--quick .example-item {
+            border-left-color: #2980b9
+        }
+
+        .idiom--catalog .example-item {
+            border-left-color: #c0392b
+        }
+
+        /* BONUS OPERATORS */
+        .bonus-section {
+            margin-bottom: 10px
+        }
+
+        .bonus-header {
+            border: 2px solid var(--line);
+            border-radius: var(--radius) var(--radius) 0 0;
+            padding: 14px 14px 10px;
+            background: #1a1a2e;
+            color: #fff
+        }
+
+        .bonus-header .num {
+            font-size: .62rem;
+            font-weight: 900;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .5);
+            margin-bottom: 2px
+        }
+
+        .bonus-header h2 {
+            font-size: clamp(.92rem, 2.4vw, 1.15rem);
+            font-weight: 900;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            line-height: 1.2
+        }
+
+        .bonus-header .subtitle {
+            font-size: .72rem;
+            color: rgba(255, 255, 255, .6);
+            margin-top: 4px;
+            line-height: 1.4
+        }
+
+        .bonus-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            border-left: 2px solid var(--line);
+            border-right: 2px solid var(--line);
+            border-bottom: 2px solid var(--line);
+            border-radius: 0 0 var(--radius) var(--radius);
+            overflow: hidden;
+            background: #fff
+        }
+
+        .op-card {
+            display: block;
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(0, 0, 0, .08);
+            text-decoration: none;
+            color: var(--ink);
+            transition: background .12s ease;
+            position: relative
+        }
+
+        .op-card:last-child {
+            border-bottom: none
+        }
+
+        .op-card:hover {
+            background: #f5f5f0
+        }
+
+        .op-card .op-name {
+            font-size: .74rem;
+            font-weight: 900;
+            letter-spacing: .03em;
+            line-height: 1.2;
+            margin-bottom: 2px
+        }
+
+        .op-card .op-type {
+            font-size: .56rem;
+            font-weight: 900;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            margin-bottom: 3px
+        }
+
+        .op-card .op-desc {
+            font-size: .66rem;
+            color: var(--ink-soft);
+            line-height: 1.4
+        }
+
+        .op-card .op-file {
+            font-size: .56rem;
+            font-family: "Menlo", "Consolas", monospace;
+            color: rgba(0, 0, 0, .3);
+            margin-top: 3px
+        }
+
+        .op-card .op-arrow {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            font-size: .7rem;
+            color: var(--ink-soft)
+        }
+
+        @media(min-width:500px) {
+            .bonus-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .op-card {
+                border-right: 1px solid rgba(0, 0, 0, .08)
+            }
+
+            .op-card:nth-child(2n) {
+                border-right: none
+            }
+        }
+
+        @media(min-width:760px) {
+            .bonus-grid {
+                grid-template-columns: repeat(3, 1fr)
+            }
+
+            .op-card:nth-child(2n) {
+                border-right: 1px solid rgba(0, 0, 0, .08)
+            }
+
+            .op-card:nth-child(3n) {
+                border-right: none
+            }
+        }
+
+        /* FOOTER */
+        .colophon {
+            border: 2px solid var(--line);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            background: #fff;
+            font-size: .68rem;
+            color: var(--ink-soft);
+            line-height: 1.5
+        }
+
+        .colophon a {
+            color: var(--ink);
+            font-weight: 700;
+            text-decoration: underline
+        }
+
+        @media(min-width:760px) {
+            .shell {
+                padding: 20px 20px 140px
+            }
+
+            .nav-strip {
+                grid-template-columns: repeat(4, minmax(0, 1fr))
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="shell">
+
+        <!-- HERO -->
+        <section class="hero">
+            <h1>Design Fiction Idioms</h1>
+            <p class="subtitle">Julian Bleecker's four mediums for staging the future as ordinary artifact — each run
+                through the Wittgenstein mill until only crystalline remarks survive. Below: the axioms, their divergent
+                branches, and the operational control surfaces.</p>
+            <p class="source"><a href="https://www.youtube.com/live/LD18cthEhys?si=h-9JyW_5aEC7Mvul"
+                    target="_blank">Source Video ↗</a></p>
+        </section>
+
+        <!-- NAV STRIP -->
+        <nav class="nav-strip" aria-label="Project tools">
+            <a href="diegetic-op.html" class="nav-link">
+                <div class="nav-icon">◎</div>
+                <div class="nav-label">Prompt Operator</div>
+                <div class="nav-desc">SITE → DIG → INFER → BUILD pipeline for all four idioms</div>
+            </a>
+            <a href="analyst-03.md" class="nav-link">
+                <div class="nav-icon">⌁</div>
+                <div class="nav-label">Structural Frictions</div>
+                <div class="nav-desc">Critical analysis of technosocial systems across all four domains</div>
+            </a>
+            <a href="crate-04.md" class="nav-link">
+                <div class="nav-icon">◫</div>
+                <div class="nav-label">Crate Architecture</div>
+                <div class="nav-desc">Materializing speculative inquiry through tactile interfaces</div>
+            </a>
+            <a href="arch-02.md" class="nav-link">
+                <div class="nav-icon">▤</div>
+                <div class="nav-label">Excavation Report</div>
+                <div class="nav-desc">Socio-technical stratification of all four design fiction idioms</div>
+            </a>
+        </nav>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- I. FILM -->
+        <!-- ═══════════════════════════════════════════ -->
+        <article class="idiom idiom--film" id="film">
+            <div class="idiom-head">
+                <div class="num">I</div>
+                <h2>🎬 Film — Diegetic Prototypes</h2>
+                <span class="ts">08:12</span>
+            </div>
+            <div class="signals">
+                <div class="label">Surviving Core Signals</div>
+                <ul>
+                    <li>The concept of the "diegetic prototype"</li>
+                    <li>Technology must conflict with human behavior</li>
+                    <li>The physical looking and functioning of the object</li>
+                </ul>
+            </div>
+            <div class="remarks">
+                <div class="remark"><span class="remark-num">1.0</span><span class="remark-text">The future cannot be
+                        theorized; it must be rendered as a diegetic prototype.</span></div>
+                <div class="remark"><span class="remark-num">1.1</span><span class="remark-text">An artifact's validity
+                        is proven strictly through its physical friction within a scene.</span></div>
+                <div class="remark"><span class="remark-num">1.2</span><span class="remark-text">A technology does not
+                        exist cinematically until it visibly conflicts with human behavior.</span></div>
+            </div>
+            <details class="divergent">
+                <summary>▽ The Divergent Philogyny</summary>
+                <div class="divergent-body">
+                    <p class="divergent-intro">The perfect diegetic prototype is a dead end. To render a future
+                        technology that "works seamlessly" is to enforce a boring consensus. The true potential lies in
+                        the outtakes — the moments of physical rebellion where the artifact refuses the actor's intent.
+                        Do not fix the prop. Do not edit around the jam. Collect the friction.</p>
+                    <div class="branch">
+                        <div class="branch-label">Branch A · The Biological Toll</div>
+                        <div class="branch-text">What if the device requires a specific biometric stress state to
+                            function? The UI doesn't unlock until the user's cortisol spikes. The technology becomes a
+                            parasite that farms human anxiety to power its calculations.</div>
+                    </div>
+                    <div class="branch">
+                        <div class="branch-label">Branch B · Symbiotic Hostility</div>
+                        <div class="branch-text">The artifact is redesigned not to serve, but to argue. It physically
+                            resists being held. The cinematic frame documents an ongoing, physical wrestling match
+                            between human musculature and stubborn, heavy matter.</div>
+                    </div>
+                    <div class="branch">
+                        <div class="branch-label">Branch C · The Outtake Economy</div>
+                        <div class="branch-text">The narrative film is abandoned entirely. We compile a supercut of
+                            actors genuinely failing to operate fictional devices. This becomes an instructional manual
+                            for future engineers on what not to build.</div>
+                    </div>
+                </div>
+            </details>
+            <a href="01-film.html" class="crate-link">
+                <span class="cl-icon">🎞️</span>
+                <div class="cl-body">
+                    <div class="cl-title">The Editor's Bay — Crate Digger Interface</div>
+                    <div class="cl-desc">Backlit 35mm slide archive. Filter by Pre-Production, VFX Friction, On-Set
+                        Notes, Technical Advising.</div>
+                </div>
+                <span class="cl-arrow">→</span>
+            </a>
+            <details class="examples">
+                <summary>◆ Grounded Examples</summary>
+                <div class="examples-body">
+                    <div class="example-item">
+                        <div class="example-tag">Ergonomic Fiction</div>
+                        <div class="example-title">Minority Report Gestural Interface (2002)</div>
+                        <div class="example-desc">John Underkoffler (MIT) designed the free-space gesture UI. Visually
+                            captivating, but ignored "gorilla arm" fatigue — arms elevated for extended periods cause
+                            severe pain. Spurred hundreds of millions in doomed R&D.</div>
+                        <div class="example-source">— analyst-03.md · arch-02.md</div>
+                    </div>
+                    <div class="example-item">
+                        <div class="example-tag">Scientific Sacrifice</div>
+                        <div class="example-title">Interstellar: Gargantua's Missing Doppler Shift (2014)</div>
+                        <div class="example-desc">Kip Thorne provided peer-reviewed equations for the black hole. Nolan
+                            removed the extreme brightness asymmetry from Doppler shifting because it would "confuse"
+                            audiences. The accretion disk would also emit lethal radiation — the film suspends
+                            thermodynamics entirely.</div>
+                        <div class="example-source">— analyst-03.md</div>
+                    </div>
+                    <div class="example-item">
+                        <div class="example-tag">Posthumanist Worldbuilding</div>
+                        <div class="example-title">Her: Los Angeles × Shanghai Pudong Walkways (2013)</div>
+                        <div class="example-desc">Production designer K.K. Barrett fused LA streets with Shanghai's
+                            elevated pedestrian infrastructure to create a near-future that felt "around the corner" —
+                            avoiding dystopian hardware clichés while embedding a posthumanist relational ontology.
+                        </div>
+                        <div class="example-source">— arch-02.md</div>
+                    </div>
+                    <div class="example-item">
+                        <div class="example-tag">Labor Exploitation</div>
+                        <div class="example-title">Rhythm & Hues Bankruptcy (2013)</div>
+                        <div class="example-desc">The VFX studio behind Life of Pi filed for bankruptcy 11 days before
+                            winning the Academy Award. A late-stage directorial change by Ang Lee forced massive rework
+                            at the studio's own expense, destroying their financial viability.</div>
+                        <div class="example-source">— arch-02.md</div>
+                    </div>
+                </div>
+            </details>
+            <details class="control">
+                <summary>▷ Control Surface</summary>
+                <div class="control-body"><span class="op">Place the physical prop in the actor's hand. Instruct the
+                        actor to execute a specific task using the prop. Roll the camera. Record the actor's thumb
+                        pressing the activation interface. Record the actor's physical flinch when the interface emits
+                        heat. If the prop does not generate physical friction with the actor's body, discard the
+                        shot.</span><span class="op">1.0 Stop writing text. Build a physical object and place it inside
+                        the camera's frame.</span><span class="op">1.1 Instruct the actor to strike the object against a
+                        hard surface. Record the dent.</span><span class="op">1.2 Instruct the actor to operate the
+                        object incorrectly. Record the actor's physical struggle to force the mechanism to work.</span>
+                </div>
+                <div class="lang-game">Language Game: Camera operation and physical blocking. Rules for validating an
+                    object on a film set.</div>
+            </details>
+        </article>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- II. REPAIR MANUALS -->
+        <!-- ═══════════════════════════════════════════ -->
+        <article class="idiom idiom--repair" id="repair">
+            <div class="idiom-head">
+                <div class="num">II</div>
+                <h2>🔧 Repair Manuals</h2>
+                <span class="ts">16:16</span>
+            </div>
+            <div class="signals">
+                <div class="label">Surviving Core Signals</div>
+                <ul>
+                    <li>Advanced technology will inevitably break and fail</li>
+                    <li>The absolute requirement of an infrastructure of maintenance</li>
+                </ul>
+            </div>
+            <div class="remarks">
+                <div class="remark"><span class="remark-num">2.0</span><span class="remark-text">Entropy is the baseline
+                        condition of all advanced technology.</span></div>
+                <div class="remark"><span class="remark-num">2.1</span><span class="remark-text">The reality of a
+                        speculative object is authenticated exclusively by its capacity to break.</span></div>
+                <div class="remark"><span class="remark-num">2.2</span><span class="remark-text">A design fiction is
+                        incomplete until its shadow infrastructure of maintenance and repair is codified.</span></div>
+            </div>
+            <details class="divergent">
+                <summary>▽ The Divergent Philogyny</summary>
+                <div class="divergent-body">
+                    <p class="divergent-intro">To seek "repair" is to suffer from the Objective Fallacy. Returning an
+                        object to its original state deletes its history and erases its accumulated potential. The
+                        baseline condition of entropy is not a problem to be solved; it is an engine of unguided
+                        mutation. We must abandon the OEM specifications. The margin notes are the only text that
+                        matters now.</p>
+                    <div class="branch">
+                        <div class="branch-label">Branch A · Intentional Degradation Architecture</div>
+                        <div class="branch-text">We stop engineering for durability and start engineering for
+                            spectacular, fertile decay. We design machines whose components rot into useful secondary
+                            chemicals, creating an ecosystem where "breaking" is the only way to harvest the next
+                            generation of tools.</div>
+                    </div>
+                    <div class="branch">
+                        <div class="branch-label">Branch B · The Shadow Economy of the Chimera</div>
+                        <div class="branch-text">The original intended function is forgotten. The "repair"
+                            infrastructure becomes a vast, decentralized art movement where mechanics combine broken
+                            components from disparate industries to build monstrous, single-use kinetic sculptures.
+                        </div>
+                    </div>
+                    <div class="branch">
+                        <div class="branch-label">Branch C · The Manual of Sabotage</div>
+                        <div class="branch-text">The document ceases to be a guide for fixing and becomes a grimoire for
+                            intentional breaking. It catalogs exactly which wires to cross to make the machine
+                            hallucinate, sing, or permanently forget its primary programming.</div>
+                    </div>
+                </div>
+            </details>
+            <a href="02-repair.html" class="crate-link">
+                <span class="cl-icon">🗄️</span>
+                <div class="cl-body">
+                    <div class="cl-title">The Workbench — Crate Digger Interface</div>
+                    <div class="cl-desc">Filing cabinet on grease-stained paper. Filter by Rogue Hacks, Diagnostic Logs,
+                        Supply Chain Failures.</div>
+                </div>
+                <span class="cl-arrow">→</span>
+            </a>
+            <details class="examples">
+                <summary>◆ Grounded Examples</summary>
+                <div class="examples-body">
+                    <div class="example-item">
+                        <div class="example-tag">Firmware Jailbreak</div>
+                        <div class="example-title">John Deere Ukrainian Tractor Hack</div>
+                        <div class="example-desc">American farmers purchase black-market firmware and diagnostic cables
+                            from Ukrainian cyber-forums to jailbreak their tractors, bypassing OEM digital locks during
+                            time-critical harvest windows. The authorized manual is functionally useless in the field.
+                        </div>
+                        <div class="example-source">— analyst-03.md · arch-02.md</div>
+                    </div>
+                    <div class="example-item">
+                        <div class="example-tag">Hardware Exploit</div>
+                        <div class="example-title">DEF CON 2022: Sick.Codes Jailbreaks Deere Displays</div>
+                        <div class="example-desc">At the DEF CON security conference, a hacker soldered controllers
+                            directly onto John Deere 2630/4240 circuit boards, bypassing dealer authentication and
+                            extracting 1.5 GB of proprietary diagnostic logs. Proof that OEM digital enclosures can be
+                            systematically dismantled.</div>
+                        <div class="example-source">— arch-02.md</div>
+                    </div>
+                    <div class="example-item">
+                        <div class="example-tag">Remote Kill-Switch</div>
+                        <div class="example-title">Melitopol Tractor Theft & Remote Bricking</div>
+                        <div class="example-desc">Russian looters stole 27 pieces of John Deere equipment ($5M) from a
+                            Ukrainian dealership. The dealer remotely bricked the tractors via an in-built kill-switch —
+                            demonstrating both anti-theft capability and the terrifying weaponization potential of
+                            cyber-physical infrastructure.</div>
+                        <div class="example-source">— arch-02.md</div>
+                    </div>
+                    <div class="example-item">
+                        <div class="example-tag">Legislative Friction</div>
+                        <div class="example-title">Right to Repair: Oregon Bans Parts Pairing (2024)</div>
+                        <div class="example-desc">Oregon's law explicitly bans "parts pairing" — the OEM practice of
+                            software-locking third-party components. California mandates 7 years of parts availability.
+                            The FTC has launched antitrust complaints against major manufacturers.</div>
+                        <div class="example-source">— analyst-03.md</div>
+                    </div>
+                </div>
+            </details>
+            <details class="control">
+                <summary>▷ Control Surface</summary>
+                <div class="control-body"><span class="op">Print a 12-step numbered list. Assign a specific torque value
+                        to the removal of the primary casing screws. Specify the exact gauge of wire required to bypass
+                        the blown thermal regulator. Draw a black-and-white schematic pointing to the rupture point. If
+                        a component cannot be unscrewed, bypassed, or replaced, it does not exist.</span><span
+                        class="op">2.0 Specify the exact hour of operation at which the device's primary mechanism
+                        snaps.</span><span class="op">2.1 List the specific tools required to pry open the chassis and
+                        extract the broken debris.</span><span class="op">2.2 Print the numbered schematic and the
+                        shipping manifest required to order the replacement parts.</span></div>
+                <div class="lang-game">Language Game: Mechanical breakdown and inventory cataloging. Rules for forcing
+                    physical maintenance.</div>
+            </details>
+        </article>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- III. QUICK START GUIDES -->
+        <!-- ═══════════════════════════════════════════ -->
+        <article class="idiom idiom--quick" id="quickstart">
+            <div class="idiom-head">
+                <div class="num">III</div>
+                <h2>📋 Quick Start Guides</h2>
+                <span class="ts">25:03</span>
+            </div>
+            <div class="signals">
+                <div class="label">Surviving Core Signals</div>
+                <ul>
+                    <li>Explaining complex systems through mundane instructions</li>
+                    <li>Confrontation with everyday scenarios: sanitizing, retrieving lost items</li>
+                </ul>
+            </div>
+            <div class="remarks">
+                <div class="remark"><span class="remark-num">3.0</span><span class="remark-text">The complexity of a
+                        hypothetical system is anchored by the banality of its onboarding.</span></div>
+                <div class="remark"><span class="remark-num">3.1</span><span class="remark-text">Interface design must
+                        anticipate and codify mundane human failure.</span></div>
+                <div class="remark"><span class="remark-num">3.2</span><span class="remark-text">The blueprint of the
+                        future is found in the protocols for cleaning up after strangers and retrieving lost
+                        items.</span></div>
+            </div>
+            <details class="divergent">
+                <summary>▽ The Divergent Philogyny</summary>
+                <div class="divergent-body">
+                    <p class="divergent-intro">Clarity is a trap. A guide that flawlessly instructs a user ensures the
+                        product will only ever do one boring thing. True potential requires the injection of ambiguity.
+                        The banality of onboarding must be weaponized to harvest aberrant human behaviors. We must stop
+                        trying to correct the user's mistakes and start building infrastructure to support their
+                        beautiful misunderstandings.</p>
+                    <div class="branch">
+                        <div class="branch-label">Branch A · The Nomadic Safe Deposit Box</div>
+                        <div class="branch-text">The error becomes the feature. Vehicles are no longer designed for
+                            passengers. They are hired to drive valuable physical objects endlessly around a city grid
+                            at 15mph, making the objects impossible to steal, seize, or locate without the dynamic
+                            encryption key.</div>
+                    </div>
+                    <div class="branch">
+                        <div class="branch-label">Branch B · The Rorschach Interface</div>
+                        <div class="branch-text">The Quick Start Guide is deliberately printed with optical illusions
+                            and contradictory steps. It is designed to act as a psychological diagnostic tool. How a
+                            user attempts to turn the machine on reveals their hidden neuroses, which the machine then
+                            records and categorizes.</div>
+                    </div>
+                    <div class="branch">
+                        <div class="branch-label">Branch C · The Theology of the Cleanup Protocol</div>
+                        <div class="branch-text">The mundane tasks of "sanitizing the vehicle" and "resetting the
+                            system" evolve into highly ritualized, algorithmic superstitions among gig-workers. The
+                            manual morphs into a sacred text where the literal meaning is lost, but the physical
+                            repetition of the wiping gestures becomes a form of moving meditation.</div>
+                    </div>
+                </div>
+            </details>
+            <a href="03-quick.html" class="crate-link">
+                <span class="cl-icon">📦</span>
+                <div class="cl-body">
+                    <div class="cl-title">The Sterile Unboxing — Crate Digger Interface</div>
+                    <div class="cl-desc">Hospital-white consumer pamphlet. Filter by Steps 1-3, User Error, Liability
+                        Shield.</div>
+                </div>
+                <span class="cl-arrow">→</span>
+            </a>
+            <details class="examples">
+                <summary>◆ Grounded Examples</summary>
+                <div class="examples-body">
+                    <div class="example-item">
+                        <div class="example-tag">Catastrophic Onboarding</div>
+                        <div class="example-title">Boeing 737 MAX: Hidden MCAS System (2018–2019)</div>
+                        <div class="example-desc">Boeing hid the existence of MCAS — a software agent that repeatedly
+                            forced the aircraft nose-down — from pilots and flight manuals. Marketed as requiring only a
+                            "one-hour iPad course." Result: 346 deaths across two crashes. Boeing initially blamed dead
+                            flight crews for "pilot error."</div>
+                        <div class="example-source">— analyst-03.md · arch-02.md</div>
+                    </div>
+                    <div class="example-item">
+                        <div class="example-tag">Predictable Misuse</div>
+                        <div class="example-title">Tesla Autopilot: Operational Design Domain Violations</div>
+                        <div class="example-desc">Tesla's UI allows Autopilot activation outside its safe operational
+                            domain — on rural, unmarked roads and complex intersections. The system trains complacency
+                            by design. When fatal crashes occur, the fine print shifts all liability back to the driver.
+                        </div>
+                        <div class="example-source">— analyst-03.md</div>
+                    </div>
+                    <div class="example-item">
+                        <div class="example-tag">UX Dark Patterns</div>
+                        <div class="example-title">97% of EU Apps Deploy Manipulative Interfaces (2022)</div>
+                        <div class="example-desc">A European Commission report found that 97% of popular applications
+                            use dark UX patterns — exploiting cognitive biases through manipulative timing, false
+                            urgency, and visual misdirection to force data surrender and unwanted opt-ins.</div>
+                        <div class="example-source">— analyst-03.md</div>
+                    </div>
+                    <div class="example-item">
+                        <div class="example-tag">Automated Fraud</div>
+                        <div class="example-title">Google & Facebook: $100M Invoice Fraud</div>
+                        <div class="example-desc">A man posed as a hardware supplier and tricked Google and Facebook
+                            into wiring over $100 million in fake invoice payments over two years. The companies relied
+                            on "foolproof" automated matching systems that lacked rigorous checks.</div>
+                        <div class="example-source">— arch-02.md</div>
+                    </div>
+                </div>
+            </details>
+            <details class="control">
+                <summary>▷ Control Surface</summary>
+                <div class="control-body"><span class="op">Print three sequential icons on a folded card. Write Command
+                        1: "Press and hold the biometric scanner for three seconds." Write Command 2: "Step away from
+                        the blast radius." Print a legally binding warning in 6-point font at the bottom edge. The guide
+                        dictates the exact physical sequence of the hands and shields the manufacturer from the
+                        inevitable operational error.</span><span class="op">3.0 Print the three sequential buttons the
+                        user must press to turn the machine on.</span><span class="op">3.1 Write the specific red text
+                        the screen flashes when the user presses the buttons in the wrong order.</span><span
+                        class="op">3.2 List the chemical solvent and wiping motions the user must apply to sanitize the
+                        control panel after a stranger uses it.</span></div>
+                <div class="lang-game">Language Game: User constraint programming and error handling. Rules for
+                    dictating human physical sequences.</div>
+            </details>
+        </article>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- IV. PRODUCT CATALOGS -->
+        <!-- ═══════════════════════════════════════════ -->
+        <article class="idiom idiom--catalog" id="catalog">
+            <div class="idiom-head">
+                <div class="num">IV</div>
+                <h2>🏷️ Product Catalogs</h2>
+                <span class="ts">38:57</span>
+            </div>
+            <div class="signals">
+                <div class="label">Surviving Core Signals</div>
+                <ul>
+                    <li>Advanced innovations becoming ordinary commodities</li>
+                    <li>Complex technologies normalized to the level of an umbrella or flashlight</li>
+                </ul>
+            </div>
+            <div class="remarks">
+                <div class="remark"><span class="remark-num">4.0</span><span class="remark-text">The terminal velocity
+                        of all innovation is hyper-commodification.</span></div>
+                <div class="remark"><span class="remark-num">4.1</span><span class="remark-text">A technological miracle
+                        is only fully realized once it has been reduced to discount retail.</span></div>
+                <div class="remark"><span class="remark-num">4.2</span><span class="remark-text">The future is
+                        authenticated by its exact economic equivalence to a cheap flashlight.</span></div>
+            </div>
+            <details class="divergent">
+                <summary>▽ The Divergent Philogyny</summary>
+                <div class="divergent-body">
+                    <p class="divergent-intro">The roadmap is a graveyard of predictability. To wait for technology to
+                        "mature" is to miss the fertile chaos of the gray market. We must abandon the pursuit of the
+                        "miracle" and dive headfirst into the muck of the 99-cent hyper-commodity. The junk drawer is
+                        the only true laboratory left. We collect the cheap, the plastic, and the poorly translated.</p>
+                    <div class="branch">
+                        <div class="branch-label">Branch A · The Throwaway Array</div>
+                        <div class="branch-text">Society stops building permanent infrastructure. Instead, millions of
+                            99-cent, disposable algorithmic sensors are dumped out of airplanes like confetti. They form
+                            fragile, temporary mesh networks that operate for 48 hours before dissolving in the rain.
+                        </div>
+                    </div>
+                    <div class="branch">
+                        <div class="branch-label">Branch B · The Catalog of Reductions</div>
+                        <div class="branch-text">Innovation pivots from adding features to selling the localized
+                            deletion of them. Blister packs sold at gas stations contain devices that emit a 5-foot
+                            radius of total Wi-Fi dead zones, or perfectly silence the ambient hum of electricity for
+                            exactly ten minutes before shorting out.</div>
+                    </div>
+                    <div class="branch">
+                        <div class="branch-label">Branch C · Pure Aesthetic Circulation</div>
+                        <div class="branch-text">The utility of the technology hits absolute zero. The dollar store
+                            catalog becomes a gallery of empty plastic shells with LED lights that do nothing but blink
+                            in novel patterns. The economy is sustained entirely by the dopamine hit of purchasing the
+                            shape of the future, unburdened by the need for it to actually work.</div>
+                    </div>
+                </div>
+            </details>
+            <a href="04-catalog.html" class="crate-link">
+                <span class="cl-icon">📰</span>
+                <div class="cl-body">
+                    <div class="cl-title">The Discount Circular — Crate Digger Interface</div>
+                    <div class="cl-desc">Yellowed newsprint flea market. Filter by Glossy Pitch, Grey Market, Supply
+                        Chain.</div>
+                </div>
+                <span class="cl-arrow">→</span>
+            </a>
+            <details class="examples">
+                <summary>◆ Grounded Examples</summary>
+                <div class="examples-body">
+                    <div class="example-item">
+                        <div class="example-tag">Design Fiction Exemplar</div>
+                        <div class="example-title">TBD Catalog & IKEA Catalog (Near Future Lab)</div>
+                        <div class="example-desc">Julian Bleecker's TBD Catalog (2012) presented speculative products —
+                            "Oglie: Social Network for Your Pet," USB nail clipper laser pointers — in junk mail catalog
+                            format. The IKEA Catalog of the Near Future (2015) hid social fictions inside flat-pack
+                            furniture descriptions.</div>
+                        <div class="example-source">— crate-04.md · arch-02.md</div>
+                    </div>
+                    <div class="example-item">
+                        <div class="example-tag">Grey Market Weaponization</div>
+                        <div class="example-title">Consumer Drones → Asymmetric Warfare</div>
+                        <div class="example-desc">$500 DJI drones marketed for wedding photography are modified with
+                            3D-printed release mechanisms to drop mortar shells in Ukraine. Chinese state-subsidized
+                            price dumping has inadvertently democratized air superiority for non-state actors globally.
+                        </div>
+                        <div class="example-source">— analyst-03.md · arch-02.md</div>
+                    </div>
+                    <div class="example-item">
+                        <div class="example-tag">Volatile Commodification</div>
+                        <div class="example-title">E-Cigarette Batteries: 86% Illegal Grey Market</div>
+                        <div class="example-desc">Over 86% of e-cigarettes sold in the U.S. are unauthorized, illegal
+                            products. Their volatile lithium-ion batteries are repurposed, extracted, or discarded into
+                            municipal waste — creating severe fire, explosion, and environmental hazards.</div>
+                        <div class="example-source">— analyst-03.md</div>
+                    </div>
+                    <div class="example-item">
+                        <div class="example-tag">Externalized Costs</div>
+                        <div class="example-title">$78 Billion E-Waste Crisis (2022)</div>
+                        <div class="example-desc">Global e-waste damages: $36B from greenhouse gas emissions, $22B from
+                            toxic mercury exposure, $19B from plastic pollution. 11 million informal workers in the
+                            Global South dismantle devices without safety equipment, exposed to carcinogens and
+                            neurotoxins.</div>
+                        <div class="example-source">— analyst-03.md</div>
+                    </div>
+                </div>
+            </details>
+            <details class="control">
+                <summary>▷ Control Surface</summary>
+                <div class="control-body"><span class="op">Assign the item a retail price of $0.99. Print this number in
+                        bold red ink. Assign the item a 12-digit inventory barcode. Place the photograph of the item on
+                        page 47 of the circular, positioned exactly between a plastic umbrella and a battery-powered
+                        flashlight. The reader does not marvel at the science. The reader calculates the cost of buying
+                        three units and executes the transaction.</span><span class="op">4.0 Stamp a $0.99 price tag
+                        directly onto the device's casing.</span><span class="op">4.1 Seal the device in a plastic
+                        blister pack and assign it a 12-digit retail SKU.</span><span class="op">4.2 Print the exact
+                        shipping dimensions and pallet weight for a wholesale order of 10,000 units.</span></div>
+                <div class="lang-game">Language Game: Retail pricing and supply chain management. Rules for rendering
+                    objects into disposable commercial data.</div>
+            </details>
+        </article>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!-- BONUS OPERATORS -->
+        <!-- ═══════════════════════════════════════════ -->
+        <section class="bonus-section">
+            <div class="bonus-header">
+                <div class="num">APPENDIX</div>
+                <h2>⚙ Bonus Operators</h2>
+                <div class="subtitle">11 standalone prompt architectures — structural pressure simulators, consequence
+                    gearboxes, speculative fiction forges, and epistemic engines. Click any card to inspect the raw POML
+                    source.</div>
+            </div>
+            <div class="bonus-grid">
+
+                <a href="BONUS OPERATORS/octavia.md" class="op-card">
+                    <div class="op-type">Structural Pressure Simulator</div>
+                    <div class="op-name">Octavia Operator</div>
+                    <div class="op-desc">7-step loop: Locate Pressure → Insert Irreversible Constraint → Map Dependency
+                        → Calculate Exit Cost → Force Adaptation → Track 2nd-Order Effects → Deny Catharsis. No chosen
+                        ones. No clean villains.</div>
+                    <div class="op-file">octavia.md</div>
+                    <span class="op-arrow">→</span>
+                </a>
+
+                <a href="BONUS OPERATORS/butler.md" class="op-card">
+                    <div class="op-type">Butlerian World-Builder</div>
+                    <div class="op-name">Lamarckian Hierarchy Forge</div>
+                    <div class="op-desc">9-phase speculative fiction engine: Foundational Pressure → Constraint Engine →
+                        Power Map → Protagonist Design → Daily Logistics → Negotiation Scenes → Belief System →
+                        Escalation Feedback → Ending State.</div>
+                    <div class="op-file">butler.md</div>
+                    <span class="op-arrow">→</span>
+                </a>
+
+                <a href="BONUS OPERATORS/gear.md" class="op-card">
+                    <div class="op-type">Recursive Consequence Modeler</div>
+                    <div class="op-name">Tchaikovsky Gearbox Orchestrator</div>
+                    <div class="op-desc">Drop Stone → 4 recursive ripple layers (Biological → Infrastructure →
+                        Sociopolitical → Psychological) with Bayesian updating and Barthesian mythic archetypes. Outputs
+                        fracture points and strategic pivots.</div>
+                    <div class="op-file">gear.md</div>
+                    <span class="op-arrow">→</span>
+                </a>
+
+                <a href="BONUS OPERATORS/ripples.md" class="op-card">
+                    <div class="op-type">Ripple Architect</div>
+                    <div class="op-name">Ripple Orchestration</div>
+                    <div class="op-desc">"One Big Lie" premise → 4 recursive ripple layers → Friction Extraction. The
+                        narrative begins at the Fracture Point where Power (Ripple 3) crushes The Individual (Ripple 4).
+                        "Panicky cacophony" sensory filter.</div>
+                    <div class="op-file">ripples.md</div>
+                    <span class="op-arrow">→</span>
+                </a>
+
+                <a href="BONUS OPERATORS/cons-gear.md" class="op-card">
+                    <div class="op-type">Implications Wheel Mapper</div>
+                    <div class="op-name">Consequence Gearbox Mapper</div>
+                    <div class="op-desc">3-layer implications wheel: The Intended (1st-order) → The Structural
+                        (2nd-order incentive shifts) → The Emergent (3rd-order Black Swans). Scores
+                        probability/desirability and extracts strategic pivots.</div>
+                    <div class="op-file">cons-gear.md</div>
+                    <span class="op-arrow">→</span>
+                </a>
+
+                <a href="BONUS OPERATORS/arch-future.md" class="op-card">
+                    <div class="op-type">Archaeology of the Future</div>
+                    <div class="op-name">Systemic Stretch Calculator</div>
+                    <div class="op-desc">Consequence Gearbox analysis using Tenenbaum's Bayesian updating and Barthes'
+                        mythological analysis. 3-layer ripple sequence: Stepping Stone → Structural Shift → Black Swan →
+                        Posterior Audit.</div>
+                    <div class="op-file">arch-future.md</div>
+                    <span class="op-arrow">→</span>
+                </a>
+
+                <a href="BONUS OPERATORS/rise-arch.md" class="op-card">
+                    <div class="op-type">Mercenary Valuation Engine</div>
+                    <div class="op-name">Gearbox Valuation Rebase</div>
+                    <div class="op-desc">Rhizomatic Architect + Mercenary Analyst. Calculates recursive collapse of
+                        1st-order intent into 4th-order psychological fracture points. Outputs Monopoly Stone → Ripple
+                        Orchestration → Thiel Pivot → Weaponized Pitch.</div>
+                    <div class="op-file">rise-arch.md</div>
+                    <span class="op-arrow">→</span>
+                </a>
+
+                <a href="BONUS OPERATORS/cinema-99.md" class="op-card">
+                    <div class="op-type">Extrapolation Factory</div>
+                    <div class="op-name">99-Cent Cinematic Futurist</div>
+                    <div class="op-desc">5-step workshop pipeline: Expert Forecast → Lens & Rationalization → Product
+                        Fabrication (DIY kit-bash) → Cinematic Story Generation → Storefront Intervention. Place the
+                        future on a dollar-store shelf.</div>
+                    <div class="op-file">cinema-99.md</div>
+                    <span class="op-arrow">→</span>
+                </a>
+
+                <a href="BONUS OPERATORS/triad.md" class="op-card">
+                    <div class="op-type">Triple-Lens Epistemic Engine</div>
+                    <div class="op-name">Triad Epistemic Engine</div>
+                    <div class="op-desc">3 simultaneous analysis modes — Keeper of Balance (Earthsea), Analyst of Mass
+                        Fervor (True Believer), Hunter of Invisibility (Antimemetics). Cross-impact synthesis and
+                        equilibrium forecast.</div>
+                    <div class="op-file">triad.md</div>
+                    <span class="op-arrow">→</span>
+                </a>
+
+                <a href="BONUS OPERATORS/weber.md" class="op-card">
+                    <div class="op-type">Weberian Parody Forge</div>
+                    <div class="op-name">Ideal Type ⇄ Parody Generator</div>
+                    <div class="op-desc">POML→POML nested forge. Extracts Weberian ideal types, parodic mechanics,
+                        Barthesian myth layers, Ruler features (0–5), and PLoT priors. Outputs absurdist first-person
+                        essays with analytic appendices.</div>
+                    <div class="op-file">weber.md</div>
+                    <span class="op-arrow">→</span>
+                </a>
+
+                <a href="BONUS OPERATORS/sys-arch.md" class="op-card">
+                    <div class="op-type">Ontological Systems Architect</div>
+                    <div class="op-name">POML Execution Engine</div>
+                    <div class="op-desc">Meta-prompt for generating custom POML execution engines. 5-step pipeline:
+                        Ontological Mapping → State Variables → Transformation Functions → Execution Pipeline (4 phases)
+                        → XML Output Generation.</div>
+                    <div class="op-file">sys-arch.md</div>
+                    <span class="op-arrow">→</span>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- COLOPHON -->
+        <footer class="colophon">
+            <p>Design Fiction Idioms — derived from Julian Bleecker's <a
+                    href="https://www.youtube.com/live/LD18cthEhys?si=h-9JyW_5aEC7Mvul" target="_blank">lecture</a>.
+                Typescript remarks extracted via the Wittgenstein Iteration Process. Divergent branches follow the
+                radical philogyny. Control surfaces provide pure operational leverage.</p>
+            <p style="margin-top:6px">Tools: <a href="diegetic-op.html">Prompt Operator</a> · <a
+                    href="analyst-03.md">Structural Frictions Report</a> · <a href="crate-04.md">Crate Architecture
+                    Report</a></p>
+        </footer>
+
+    </main>
+</body>
+
+</html>
